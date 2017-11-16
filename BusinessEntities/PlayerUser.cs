@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.Models
 {
-    public class User
+    public class PlayerUser
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -10,7 +10,7 @@ namespace MusicPlayer.DataAccessLayer
 {
     public class MusicPlayerDBContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<PlayerUser> PlayerUsers { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<Album> Albums { get; set; }

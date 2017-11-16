@@ -11,7 +11,7 @@ namespace MusicPlayer.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public virtual ICollection<Song> Songs { get; set; }
-        public User user { get; set; }
+        public PlayerUser user { get; set; }
 
     }
 }
