@@ -11,7 +11,7 @@ namespace MusicPlayer.Models
     public class PlaylistSongs
     {
         [Key]
-        int ID { get; set; }
+        public int Id { get; set; }
         DbSet<Playlist> Playlist { get; set; }
         DbSet<Song> Song { get; set; }
     }

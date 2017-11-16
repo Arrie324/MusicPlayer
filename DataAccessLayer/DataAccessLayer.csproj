@@ -48,6 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Migrations\201711162221529_migration7.cs" />
+    <Compile Include="Migrations\201711162221529_migration7.Designer.cs">
+      <DependentUpon>201711162221529_migration7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MusicPlayerDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +65,11 @@
       <Project>{a68ea892-2cd9-43b7-8988-e754ad589440}</Project>
       <Name>BusinessEntities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711162221529_migration7.resx">
+      <DependentUpon>201711162221529_migration7.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

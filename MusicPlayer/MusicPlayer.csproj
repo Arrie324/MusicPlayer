@@ -194,6 +194,7 @@
     <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlayerUsersController.cs" />
     <Compile Include="Controllers\PlaylistsController.cs" />
     <Compile Include="Controllers\SongsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -283,6 +284,11 @@
     <Content Include="Views\Authors\Details.cshtml" />
     <Content Include="Views\Authors\Edit.cshtml" />
     <Content Include="Views\Authors\Index.cshtml" />
+    <Content Include="Views\PlayerUsers\Create.cshtml" />
+    <Content Include="Views\PlayerUsers\Delete.cshtml" />
+    <Content Include="Views\PlayerUsers\Details.cshtml" />
+    <Content Include="Views\PlayerUsers\Edit.cshtml" />
+    <Content Include="Views\PlayerUsers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
