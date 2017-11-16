@@ -24,5 +24,7 @@ namespace MusicPlayer.Models
         public System.Data.Entity.DbSet<MusicPlayer.Models.Album> Albums { get; set; }
 
         public System.Data.Entity.DbSet<MusicPlayer.Models.Playlist> Playlists { get; set; }
+
+        public System.Data.Entity.DbSet<MusicPlayer.Models.Author> Authors { get; set; }
     }
 }
