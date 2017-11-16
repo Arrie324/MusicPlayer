@@ -193,6 +193,7 @@
     <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlaylistsController.cs" />
     <Compile Include="Controllers\SongsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -271,6 +272,11 @@
     <Content Include="Views\Albums\Details.cshtml" />
     <Content Include="Views\Albums\Edit.cshtml" />
     <Content Include="Views\Albums\Index.cshtml" />
+    <Content Include="Views\Playlists\Create.cshtml" />
+    <Content Include="Views\Playlists\Delete.cshtml" />
+    <Content Include="Views\Playlists\Details.cshtml" />
+    <Content Include="Views\Playlists\Edit.cshtml" />
+    <Content Include="Views\Playlists\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.Models
 {
-    public class Playlist
+    public class Author
     {
+
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public virtual ICollection<Song> Songs { get; set; }
-        public PlayerUser user { get; set; }
-
+        public string AuthorName { get; set; }
     }
 }
