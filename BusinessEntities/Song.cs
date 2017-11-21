@@ -11,10 +11,12 @@ namespace MusicPlayer.Models
     public class Song
     {
         [Key]
+        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
-        [ForeignKey("Id")]
+        //[ForeignKey("Id")]
         public Author Author { get; set; }
+        public int? AuthorId { get; set; }
         public Album Album { get; set; }
         public Genre Genre { get; set; }
         public virtual ICollection<Playlist> Playlist { get; set; }

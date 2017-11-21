@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MusicPlayer.Models;
+using MusicPlayer.ViewModel;
 
 namespace MusicPlayer.Controllers
 {
@@ -17,6 +18,7 @@ namespace MusicPlayer.Controllers
         // GET: Songs
         public ActionResult Index()
         {
+            //var songs = db.Songs.Include(d => d.Author);
             return View(db.Songs.ToList());
         }
 
@@ -38,6 +40,7 @@ namespace MusicPlayer.Controllers
         // GET: Songs/Create
         public ActionResult Create()
         {
+            ViewBag.Author = new SelectList(db.Authors, "Id", "AuthorName"); //bylo Id zamiast AuthorId
             return View();
         }
 
@@ -46,7 +49,7 @@ namespace MusicPlayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Genre")] Song song)
+        public ActionResult Create([Bind(Include = "Id,Title,Genre")] Song song) // dorzucone Author
         {
             if (ModelState.IsValid)
             {
