@@ -40,7 +40,7 @@ namespace MusicPlayer.Controllers
         // GET: Songs/Create
         public ActionResult Create()
         {
-            ViewBag.Author = new SelectList(db.Authors, "Id", "AuthorName"); //bylo Id zamiast AuthorId
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName"); //bylo Id zamiast AuthorId
             return View();
         }
 
@@ -49,7 +49,7 @@ namespace MusicPlayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Genre")] Song song) // dorzucone Author
+        public ActionResult Create([Bind(Include = "Id,Title,Genre,AuthorId")] Song song) // dorzucone Author
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace MusicPlayer.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName", song.AuthorId);
             return View(song);
         }
 
