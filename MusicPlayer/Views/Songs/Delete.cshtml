@@ -20,6 +20,13 @@
         </dd>
 
         <dt>
+            Author
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Author.AuthorName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Genre)
         </dt>
 
@@ -27,10 +34,19 @@
             @Html.DisplayFor(model => model.Genre)
         </dd>
 
+        <dt>
+            Album
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Album.Name)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |

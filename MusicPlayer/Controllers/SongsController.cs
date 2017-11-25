@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MusicPlayer.Models;
 using MusicPlayer.ViewModel;
+using System.Threading.Tasks;
 
 namespace MusicPlayer.Controllers
 {
@@ -16,10 +17,14 @@ namespace MusicPlayer.Controllers
         private MusicPlayerContext db = new MusicPlayerContext();
 
         // GET: Songs
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            //var songs = db.Songs.Include(d => d.Author);
-            return View(db.Songs.ToList());
+            var songs = db.Songs.Include(d => d.Author);
+            var song = db.Songs.Include(d => d.Album);
+
+            var authorResult = await songs.ToListAsync();
+            //return View(db.Songs.ToList());
+            return View(await song.ToListAsync());
         }
 
         // GET: Songs/Details/5
@@ -30,6 +35,8 @@ namespace MusicPlayer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Song song = db.Songs.Find(id);
+            Author author = db.Authors.Find(song.AuthorId);
+            Album album = db.Albums.Find(song.AlbumId);
             if (song == null)
             {
                 return HttpNotFound();
@@ -41,6 +48,7 @@ namespace MusicPlayer.Controllers
         public ActionResult Create()
         {
             ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName"); //bylo Id zamiast AuthorId
+            ViewBag.AlbumId = new SelectList(db.Albums, "Id", "Name");
             return View();
         }
 
@@ -49,7 +57,7 @@ namespace MusicPlayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Genre,AuthorId")] Song song) // dorzucone Author
+        public ActionResult Create([Bind(Include = "Id,Title,Genre,AuthorId,AlbumId")] Song song) // dorzucone Author
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +66,7 @@ namespace MusicPlayer.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName", song.AuthorId);
+            ViewBag.AlbumId = new SelectList(db.Albums, "Id", "Name", song.AlbumId);
             return View(song);
         }
 
@@ -73,6 +82,8 @@ namespace MusicPlayer.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName"); //bylo Id zamiast AuthorId
+            ViewBag.AlbumId = new SelectList(db.Albums, "Id", "Name");
             return View(song);
         }
 
@@ -81,7 +92,7 @@ namespace MusicPlayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Genre")] Song song)
+        public ActionResult Edit([Bind(Include = "Id,Title,Genre,AuthorId,AlbumId")] Song song)
         {
             if (ModelState.IsValid)
             {
@@ -89,6 +100,8 @@ namespace MusicPlayer.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName", song.AuthorId);
+            ViewBag.AlbumId = new SelectList(db.Albums, "Id", "Name", song.AlbumId);
             return View(song);
         }
 
@@ -100,6 +113,8 @@ namespace MusicPlayer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Song song = db.Songs.Find(id);
+            Author author = db.Authors.Find(song.AuthorId);
+            Album album = db.Albums.Find(song.AlbumId);
             if (song == null)
             {
                 return HttpNotFound();
@@ -113,11 +128,12 @@ namespace MusicPlayer.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Song song = db.Songs.Find(id);
+            //Author author = db.Authors.Find(song.AuthorId);
+            //Album album = db.Albums.Find(song.AlbumId);
             db.Songs.Remove(song);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

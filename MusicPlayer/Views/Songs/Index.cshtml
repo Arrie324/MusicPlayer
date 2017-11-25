@@ -15,9 +15,14 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
+            Author
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Genre)
         </th>
-        <th></th>
+        <th>
+            Album
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -26,7 +31,13 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Author.AuthorName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Genre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Album.Name)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
