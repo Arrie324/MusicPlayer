@@ -1,4 +1,4 @@
-﻿@model MusicPlayer.Models.Playlist
+﻿@model MusicPlayer.ViewModel.PlaylistIndexData
 
 @{
     ViewBag.Title = "Details";
@@ -11,16 +11,59 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Name 
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(modelItem => Model.Playlist.Name)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Playlist.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+    <h3>
+        Songs within this playlist
+    </h3>
+
+@if (Model.Songs != null)
+{
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Author
+        </th>
+        <th>
+            Genre
+        </th>
+        <th>
+            Album
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Songs)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.AuthorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Album.Name)
+            </td>
+        </tr>
+    }
+
+</table>
+}

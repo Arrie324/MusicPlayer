@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MusicPlayer.Models;
+using MusicPlayer.ViewModel;
 
 namespace MusicPlayer.Controllers
 {
@@ -27,12 +28,25 @@ namespace MusicPlayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Playlist playlist = db.Playlists.Find(id);
+            var viewModel = new PlaylistIndexData();
+            //Playlist playlist = db.Playlists.Find(id);
+            var playlist = db.Playlists.Find(id);
+            viewModel.Playlist = playlist;
+            var songs = db.Songs.Include(d => d.Author).Include(d => d.Album);
+            List<Song> SongList = new List<Song>();
+            foreach(Song song in songs)
+            {
+                if(song.Playlist.Contains(playlist))
+                {
+                    SongList.Add(song);
+                }
+            }
+            viewModel.Songs = SongList.AsEnumerable();
             if (playlist == null)
             {
                 return HttpNotFound();
             }
-            return View(playlist);
+            return View(viewModel);
         }
 
         // GET: Playlists/Create
