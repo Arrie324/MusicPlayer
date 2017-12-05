@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,9 @@ namespace MusicPlayer.Models
     {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("Id")]
         DbSet<Playlist> Playlist { get; set; }
+        [ForeignKey("Id")]
         DbSet<Song> Song { get; set; }
     }
 }

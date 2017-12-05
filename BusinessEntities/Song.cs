@@ -10,6 +10,11 @@ namespace MusicPlayer.Models
 {
     public class Song
     {
+        public Song()
+        {
+            this.Playlist = new HashSet<Playlist>();
+        }
+
         [Key]
         [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -17,9 +22,11 @@ namespace MusicPlayer.Models
         //[ForeignKey("Id")]
         public Author Author { get; set; }
         public int? AuthorId { get; set; }
+        //[ForeignKey("Id")]
         public Album Album { get; set; }
         public int AlbumId { get; set; }
         public Genre Genre { get; set; }
+        [ForeignKey("Id")]
         public virtual ICollection<Playlist> Playlist { get; set; }
     }
 }

@@ -10,21 +10,49 @@ using MusicPlayer.Models;
 using MusicPlayer.ViewModel;
 using System.Threading.Tasks;
 
+
+
 namespace MusicPlayer.Controllers
 {
     public class SongsController : Controller
     {
         private MusicPlayerContext db = new MusicPlayerContext();
-
         // GET: Songs
-        public async Task<ActionResult> Index()
+        public ActionResult Index(int? id, int? playlistId)
         {
-            var songs = db.Songs.Include(d => d.Author);
-            var song = db.Songs.Include(d => d.Album);
+            var viewModel = new SongIndexData();
+            viewModel.Songs = db.Songs.Include(d => d.Author).Include(d => d.Album);
 
-            var authorResult = await songs.ToListAsync();
-            //return View(db.Songs.ToList());
-            return View(await song.ToListAsync());
+            if(id != null)
+            {
+                //string query = "SELECT * FROM Playlists";
+                //ViewBag.SongId = id.Value;
+                viewModel.Playlists = db.Playlists.SqlQuery("SELECT * FROM Playlists");
+            }
+
+            if(playlistId != null)
+            {
+                
+                ViewBag.PlaylistId = playlistId.Value;
+                var song = db.Songs.Find(id);
+                var playlist = db.Playlists.SqlQuery("SELECT * FROM Playlists WHERE Id = {0}", playlistId).Single();
+                if (!playlist.Songs.Contains(song))
+                {
+                    playlist.Songs.Add(song);
+                    String AddMessage = "Song titled "+song.Title+ " added to Playlist "+ playlist.Name;
+                    ViewBag.Message = AddMessage ;
+                }
+                else
+                {
+                    playlist.Songs.Remove(song);
+                    String RemoveMessage = "Song titled " + song.Title + " removed from Playlist " + playlist.Name;
+                    ViewBag.Message = RemoveMessage;
+                }
+                
+                db.SaveChanges();
+            }
+            
+            return View(viewModel);
         }
 
         // GET: Songs/Details/5
@@ -77,14 +105,44 @@ namespace MusicPlayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Song song = db.Songs.Find(id);
+            Song song = db.Songs.Include(i => i.Album)
+                .Include(i => i.Author)
+                .Where(i => i.Id==id)
+                .Single();
             if (song == null)
             {
                 return HttpNotFound();
             }
             ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName"); //bylo Id zamiast AuthorId
             ViewBag.AlbumId = new SelectList(db.Albums, "Id", "Name");
+            PopulateAssignedPlaylistData(song);
+            if(song == null)
+            {
+                return HttpNotFound();
+            }
+
             return View(song);
+        }
+
+        private void PopulateAssignedPlaylistData(Song song)
+        {
+            var viewModel = new Playlist();
+            var playlists = db.Playlists;
+            
+                /*
+            var allPlaylists = db.Playlists;
+            var songPlaylists = new HashSet<int>(song.Playlist.Select(c => c.Id));
+            //var viewModel = new List<SongIndexData>();
+            foreach (var playlist in allPlaylists)
+            {
+                viewModel.Add(new SongIndexData
+                {
+                    PlaylistId = playlist.Id,
+                    Name = playlist.Name,
+                    Assigned = songPlaylists.Contains(playlist.Id)
+                });
+            }
+            ViewBag.Courses = viewModel; */
         }
 
         // POST: Songs/Edit/5

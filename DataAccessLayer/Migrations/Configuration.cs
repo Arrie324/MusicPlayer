@@ -5,14 +5,14 @@ namespace DataAccessLayer.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MusicPlayer.DataAccessLayer.MusicPlayerDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MusicPlayer.Models.MusicPlayerDBContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(MusicPlayer.DataAccessLayer.MusicPlayerDBContext context)
+        protected override void Seed(MusicPlayer.Models.MusicPlayerDBContext context)
         {
             //  This method will be called after migrating to the latest version.
 

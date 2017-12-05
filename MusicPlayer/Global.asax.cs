@@ -18,6 +18,8 @@ namespace MusicPlayer
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Database.SetInitializer<Models.MusicPlayerContext>(null);
+            //Database.SetInitializer<Models.MusicPlayerDBContext>(null);
+            
         }
     }
 }

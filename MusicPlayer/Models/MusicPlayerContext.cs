@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -28,5 +29,21 @@ namespace MusicPlayer.Models
         public System.Data.Entity.DbSet<MusicPlayer.Models.Author> Authors { get; set; }
 
         public System.Data.Entity.DbSet<MusicPlayer.Models.PlayerUser> PlayerUsers { get; set; }
+        
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<Playlist>()
+                .HasMany(c => c.Songs).WithMany(i => i.Playlist);
+            /*
+            modelBuilder.Entity<Playlist>()
+                .HasMany(c => c.Songs).WithMany(i => i.Playlist)
+                .Map(t => t.MapLeftKey("Id")
+                .MapRightKey("Id")
+                .ToTable("PlaylistSongs"));
+            */
+
+        } 
     }
 }

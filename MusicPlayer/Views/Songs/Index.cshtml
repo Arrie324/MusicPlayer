@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicPlayer.Models.Song>
+﻿@model MusicPlayer.ViewModel.SongIndexData
 
 @{
     ViewBag.Title = "Index";
@@ -12,20 +12,20 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            Title
         </th>
         <th>
             Author
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Genre)
+            Genre
         </th>
         <th>
             Album
         </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Songs) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
@@ -40,6 +40,7 @@
             @Html.DisplayFor(modelItem => item.Album.Name)
         </td>
         <td>
+            @Html.ActionLink("Select", "Index", new { id = item.Id }) |
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
@@ -48,3 +49,34 @@
 }
 
 </table>
+
+
+@if (Model.Playlists != null)
+{
+    <h3>
+        Playlists
+    </h3>
+    <tr>
+        @if (ViewBag.Message != null)
+        {
+            @ViewBag.Message
+        }
+    </tr>
+    <table class="table">
+        <tr>
+            <th>Playlist name</th>
+        </tr>
+        @foreach (var Playlistitem in Model.Playlists)
+        {
+            <tr>
+                <td>
+                    @Playlistitem.Name
+                </td>
+                <td>
+                    @Html.ActionLink("Add or Remove", "Index", new { playlistId = Playlistitem.Id })
+                    @*@Html.ActionLink("Remove", "Index", new { playlistId = Playlistitem.Id })*@
+                </td>
+            </tr>
+        }
+    </table>
+}
