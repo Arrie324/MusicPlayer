@@ -156,7 +156,10 @@ namespace MusicPlayer.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    PlayerUser PlayerUser = new PlayerUser(model.Email);
+                    MusicPlayerContext MPdb = new MusicPlayerContext();
+                    MPdb.PlayerUsers.Add(PlayerUser);
+                    MPdb.SaveChanges();
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

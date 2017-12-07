@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using MusicPlayer.Models;
@@ -18,7 +19,17 @@ namespace MusicPlayer.Controllers
         // GET: Playlists
         public ActionResult Index()
         {
-            return View(db.Playlists.ToList());
+            var LoggedUser = User.Identity.Name;
+            //if(LoggedUser != "")
+            //{
+                //var PlayerUser = db.PlayerUsers.Where(p => p.Name == LoggedUser);
+                var Playlists = db.Playlists.SqlQuery("Select * From Playlists where user_Id in " +
+                    "(select Id from PlayerUsers where Name = {0})", LoggedUser);
+                //ViewBag.Playlists = db.Playlists.Where(x => x.user == PlayerUser).ToList();
+                return View(Playlists);
+          //  }
+           // return View();
+            //return View(db.Playlists.ToList());
         }
 
         // GET: Playlists/Details/5
@@ -64,6 +75,10 @@ namespace MusicPlayer.Controllers
         {
             if (ModelState.IsValid)
             {
+                var LoggedUser = User.Identity.Name;
+                //var PlayerUser = db.PlayerUsers.Where(x => x.Name == LoggedUser).Single();
+                playlist.user = db.PlayerUsers.Where(x => x.Name == LoggedUser).Single();
+                //playlist.user = PlayerUser;
                 db.Playlists.Add(playlist);
                 db.SaveChanges();
                 return RedirectToAction("Index");
