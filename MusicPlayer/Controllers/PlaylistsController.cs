@@ -17,6 +17,7 @@ namespace MusicPlayer.Controllers
         private MusicPlayerContext db = new MusicPlayerContext();
 
         // GET: Playlists
+        [Authorize]
         public ActionResult Index()
         {
             var LoggedUser = User.Identity.Name;
