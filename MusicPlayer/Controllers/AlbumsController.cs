@@ -146,7 +146,7 @@ namespace MusicPlayer.Controllers
                 AlbumDataList.Add(new AlbumData(){Id=album.Id, Name = album.Name});
             }
             
-            return Json(AlbumDataList);
+            return Json(AlbumDataList, JsonRequestBehavior.AllowGet);
         }
         
     }
